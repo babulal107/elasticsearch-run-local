@@ -1,0 +1,28 @@
+version: '3'
+services:
+  elastic-search :
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+    image: babulal107/elasticsearch
+    ports:
+      - "9200:9200"
+    environment:
+      - "discovery.type=single-node"
+    container_name: "es-container"
+    volumes:
+      - /Users/apple/elasticsearch-data:/usr/share/elasticsearch/data
+    networks:
+      - es-net
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.4.0
+    ports:
+      - "5601:5601"
+    environment:
+      - "ELASTICSEARCH_HOSTS=http://elastic-search:9200"
+    container_name: "kb-container"
+    networks:
+      - es-net
+networks:
+  es-net:
